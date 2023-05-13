@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/users", userRoutes);
 
 const startServer = () => {
-  const PORT = process.env.APP_PORT;
+  const PORT = process.env.PORT || 8080;
   try {
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
   } catch (err) {
