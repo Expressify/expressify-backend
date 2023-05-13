@@ -1,7 +1,7 @@
-import createTcpPool from "../configs/db.config.js";
+import createPool from "../configs/db.config.js";
 
 async function query(sql, params) {
-  const pool = await createTcpPool();
+  const pool = await createPool();
   const data = await pool.query(sql, params);
   return data;
 }
