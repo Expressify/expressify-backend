@@ -5,7 +5,7 @@ const getAllUserController = async (req, res) => {
     res.status(200).json(await getAll());
   } catch (err) {
     console.error(`Error fetching all user`, err.message);
-    throw Error(`Can't fetch data`, err.message);
+    return Error(`Can't fetch data`, err.message);
   }
 };
 
