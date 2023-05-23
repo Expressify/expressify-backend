@@ -2,10 +2,16 @@ import { getAll } from "../services/user.service.js";
 
 const getAllUserController = async (req, res) => {
   try {
-    res.status(200).json(await getAll());
+    return res.status(200).json({
+      data: await getAll(),
+      message: "success fetching user data",
+      status: true,
+    });
   } catch (err) {
-    console.error(`Error fetching all user`, err.message);
-    return Error(`Can't fetch data`, err.message);
+    return res.status(500).json({
+      message: `error, ${err.message}`,
+      status: false,
+    });
   }
 };
 
