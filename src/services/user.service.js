@@ -32,21 +32,23 @@ const createOne = async (params) => {
   return { message: message, data: createdData };
 };
 
-const updateOne = async (params, id) => {
+const updateOne = async (req) => {
   let message = "Error in updating user";
   let updatedData = null;
+  let status = false;
 
-  if (!(await getOne(id))) {
-    message = `user with id: ${id} not found`;
+  if (!(await getOne(req.params.id))) {
+    message = `user with id: ${req.params.id} not found`;
     return { message };
   }
 
   const q = "UPDATE user SET ? WHERE id = ?";
-  const result = await query(q, [params, id]);
+  const result = await query(q, [req.body, req.params.id]);
 
   if (result.affectedRows) {
     message = "Update user successfull";
-    updatedData = await getOne(id);
+    updatedData = await getOne(req.params.id);
+    status = true;
   }
 
   return { message, data: updatedData, status };
