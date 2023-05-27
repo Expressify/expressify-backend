@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Expressify/expressify-backend#readme",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "promise-mysql": "^5.2.0",
