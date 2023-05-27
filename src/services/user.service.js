@@ -71,4 +71,4 @@ const deleteOne = async (id) => {
   return { message };
 };
 
-export { getAll, getOne };
+export { getAll, getOne, createOne, updateOne, deleteOne };
