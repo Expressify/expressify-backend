@@ -1,5 +1,5 @@
 import { query } from "../utils/db.utils.js";
-import v1 from "uuid";
+import { v1 } from "uuid";
 
 const getAll = async () => {
   const data = await query(`SELECT * FROM user`);
@@ -7,7 +7,7 @@ const getAll = async () => {
 };
 
 const getOne = async (id) => {
-  const data = await query(`SELECT * FROM user WHERE id = ${id}`);
+  const data = await query(`SELECT * FROM user WHERE id = ?`, [id]);
   return data[0];
 };
 
@@ -38,7 +38,7 @@ const updateOne = async (params, id) => {
 
   if (!(await getOne(id))) {
     message = `user with id: ${id} not found`;
-    return { message, status };
+    return { message };
   }
 
   const q = "UPDATE user SET ? WHERE id = ?";
@@ -66,9 +66,10 @@ const deleteOne = async (id) => {
 
   if (result.affectedRows) {
     message = "Delete user success";
+    status = true;
   }
 
-  return { message };
+  return { message, status };
 };
 
 export { getAll, getOne, createOne, updateOne, deleteOne };

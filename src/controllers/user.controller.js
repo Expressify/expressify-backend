@@ -63,7 +63,7 @@ const updateOneUserController = async (req, res) => {
     if (updateResult.data) {
       return res.status(200).json(updateResult);
     }
-    return res;
+    return res.status(422).json(updateResult);
   } catch (err) {
     return res.status(500).json({
       message: `error, ${err.message}`,
