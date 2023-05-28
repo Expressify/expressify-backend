@@ -14,6 +14,8 @@ const getOne = async (id) => {
 const createOne = async (params) => {
   let message = "Error in creating user data";
   let createdData = null;
+  let status = false;
+
   const id = v1();
   const q = `INSERT INTO genre(id, nama_genre, jenis_genre) VALUES(?, ?, ?)`;
   const result = await query(q, [id, params.nama_genre, params.jenis_genre]);
@@ -21,14 +23,16 @@ const createOne = async (params) => {
   if (result.affectedRows) {
     message = "Genre successfully created genre";
     createdData = await getOne(id);
+    status = true;
   }
 
-  return { message: message, data: createdData };
+  return { message: message, data: createdData, status };
 };
 
 const updateOne = async (req) => {
   let message = "Error in updating genre";
   let updatedData = null;
+  let status = false;
 
   if (!(await getOne(req.params.id))) {
     message = `genre with id: ${req.params.id} not found`;
@@ -41,9 +45,10 @@ const updateOne = async (req) => {
   if (result.affectedRows) {
     message = "Update genre successful";
     updatedData = await getOne(req.params.id);
+    status = true;
   }
 
-  return { message, data: updatedData };
+  return { message, data: updatedData, status };
 };
 
 const deleteOne = async (id) => {

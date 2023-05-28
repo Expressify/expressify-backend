@@ -42,11 +42,7 @@ const createOneGenreController = async (req, res) => {
     const createResult = await createOne(req.body);
 
     if (createResult.data) {
-      return res.status(200).json({
-        data: createResult.data,
-        message: "Success create genre",
-        status: true,
-      });
+      return res.status(200).json(createResult);
     }
     return res.status(422).json(createResult);
   } catch (err) {
