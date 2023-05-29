@@ -2,6 +2,7 @@ import express from "express";
 import userRoutes from "./routes/user.route.js";
 import genreRoutes from "./routes/genre.route.js";
 import filmRoutes from "./routes/film.route.js";
+import genreFilmRoutes from "./routes/genre_film.route.js";
 import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/genres", genreRoutes);
 app.use("/api/v1/films", filmRoutes);
+app.use("/api/v1/genre_films", genreFilmRoutes);
 
 const startServer = () => {
   const PORT = process.env.PORT || 8080;
