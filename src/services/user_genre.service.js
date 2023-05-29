@@ -17,7 +17,7 @@ const createOne = async (params) => {
   let status = false;
 
   const id = v1();
-  const q = `INSERT INTO user_genre(id, user_id, genre_id) VALUES(?, ?)`;
+  const q = `INSERT INTO user_genre(id, user_id, genre_id) VALUES(?, ?, ?)`;
   const result = await query(q, [id, params.user_id, params.genre_id]);
 
   if (result.affectedRows) {
