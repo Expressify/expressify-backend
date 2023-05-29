@@ -2,7 +2,7 @@ import express from "express";
 import userRoutes from "./routes/user.route.js";
 import genreRoutes from "./routes/genre.route.js";
 import filmRoutes from "./routes/film.route.js";
-import userProfilePhoto from "./routes/user_profile_photo.route.js";
+import userProfilePhotoRoutes from "./routes/user_profile_photo.route.js";
 import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
 
