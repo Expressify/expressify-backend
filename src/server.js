@@ -3,6 +3,7 @@ import userRoutes from "./routes/user.route.js";
 import genreRoutes from "./routes/genre.route.js";
 import filmRoutes from "./routes/film.route.js";
 import genreMusikRoutes from "./routes/genre_musik.route.js";
+import userJurnalRoutes from "./routes/user_jurnal.route.js";
 import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
 
@@ -23,6 +24,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/genres", genreRoutes);
 app.use("/api/v1/films", filmRoutes);
 app.use("/api/v1/genre_musics", genreMusikRoutes);
+app.use("/api/v1/user_jurnals", userJurnalRoutes);
 
 const startServer = () => {
   const PORT = process.env.PORT || 8080;
