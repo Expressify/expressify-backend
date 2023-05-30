@@ -1,5 +1,6 @@
 import { v1 } from "uuid";
 import { query } from "../utils/db.utils.js";
+import { getOne as getUser } from "./user.service.js";
 
 const getAll = async () => {
   const data = await query(`SELECT * FROM user_prediction_transaction`);
@@ -12,6 +13,16 @@ const getOne = async (id) => {
     [id]
   );
   return data[0];
+};
+
+const getByUserId = async (id) => {
+  if (await getUser(id)) {
+    const data = await query(
+      `SELECT * FROM user_prediction_transaction WHERE user_id = ?`,
+      [id]
+    );
+    return data;
+  } else throw Error("User not found");
 };
 
 const createOne = async (params) => {
@@ -78,4 +89,4 @@ const deleteOne = async (id) => {
   return { message, status };
 };
 
-export { getAll, getOne, createOne, updateOne, deleteOne };
+export { getAll, getOne, createOne, updateOne, deleteOne, getByUserId };

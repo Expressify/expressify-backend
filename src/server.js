@@ -8,7 +8,6 @@ import musikRoutes from "./routes/musik.route.js";
 import userGenreRoutes from "./routes/user_genre.route.js";
 import genreFilmRoutes from "./routes/genre_film.route.js";
 import genreBukuRoutes from "./routes/genre_buku.route.js";
-import userProfilePhotoRoutes from "./routes/user_profile_photo.route.js";
 import userJurnalRoutes from "./routes/user_jurnal.route.js";
 import articleRoutes from "./routes/artikel.route.js";
 import userPredictionTransactionRoutes from "./routes/user_prediction_transaction.route.js";
@@ -37,7 +36,6 @@ app.use("/api/v1/musik", musikRoutes);
 app.use("/api/v1/user_genres", userGenreRoutes);
 app.use("/api/v1/genre_films", genreFilmRoutes);
 app.use("/api/v1/genre_books", genreBukuRoutes);
-app.use("/api/v1/user_profile_photos", userProfilePhotoRoutes);
 app.use("/api/v1/user_jurnals", userJurnalRoutes);
 app.use("/api/v1/articles", articleRoutes);
 app.use(
