@@ -46,7 +46,7 @@ const updateOne = async (req) => {
   const result = await query(q, [req.body, req.params.id]);
 
   if (result.affectedRows) {
-    message = "Update user successfull";
+    message = "Update user successful";
     updatedData = await getOne(req.params.id);
     status = true;
   }

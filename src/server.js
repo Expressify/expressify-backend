@@ -8,6 +8,7 @@ import musikRoutes from "./routes/musik.route.js";
 import userGenreRoutes from "./routes/user_genre.route.js";
 import genreFilmRoutes from "./routes/genre_film.route.js";
 import genreBukuRoutes from "./routes/genre_buku.route.js";
+import userProfilePhotoRoutes from "./routes/user_profile_photo.route.js";
 import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
 
@@ -33,6 +34,7 @@ app.use("/api/v1/musik", musikRoutes);
 app.use("/api/v1/user_genres", userGenreRoutes);
 app.use("/api/v1/genre_films", genreFilmRoutes);
 app.use("/api/v1/genre_books", genreBukuRoutes);
+app.use("/api/v1/user_profile_photos", userProfilePhotoRoutes);
 
 const startServer = () => {
   const PORT = process.env.PORT || 8080;
