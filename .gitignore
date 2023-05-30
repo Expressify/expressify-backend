@@ -128,3 +128,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# service account
+.rock-idiom-382209-f3ae7bd47068.json
