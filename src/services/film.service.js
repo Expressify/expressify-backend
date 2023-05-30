@@ -11,6 +11,14 @@ const getOne = async (id) => {
   return data[0];
 };
 
+const getByGenreId = async (id) => {
+  const data = await query(
+    `SELECT * FROM genre_film INNER JOIN genre ON genre.id = genre_id INNER JOIN film ON film.id = film_id WHERE genre_id = ?`,
+    [id]
+  );
+  return data;
+};
+
 const createOne = async (params) => {
   let message = "Error in creating film data";
   let createdData = null;
@@ -70,4 +78,4 @@ const deleteOne = async (id) => {
   return { message, status };
 };
 
-export { getAll, getOne, createOne, updateOne, deleteOne };
+export { getAll, getOne, createOne, updateOne, deleteOne, getByGenreId };
