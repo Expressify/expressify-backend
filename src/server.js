@@ -13,10 +13,19 @@ import articleRoutes from "./routes/artikel.route.js";
 import userPredictionTransactionRoutes from "./routes/user_prediction_transaction.route.js";
 import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
+import multer from "multer";
 
 dotenv.config();
 const app = express();
 
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+});
+
+app.use(multerMid.single("file"));
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({

@@ -1,5 +1,6 @@
 import { query } from "../utils/db.utils.js";
 import { v1 } from "uuid";
+import { uploadImage } from "../utils/uploadImage.utils.js";
 
 const getAll = async () => {
   const data = await query(`SELECT * FROM user`);
@@ -11,22 +12,29 @@ const getOne = async (id) => {
   return data[0];
 };
 
-const createOne = async (params) => {
+const createOne = async (params, file) => {
   let message = "Error in creating user data";
   let createdData = null;
-  const id = v1();
-  const q = `INSERT INTO user(id, nama, password, email, user_profile_photo_id) VALUES(?, ?, ?, ?, ?)`;
-  const result = await query(q, [
-    id,
-    params.nama,
-    params.password,
-    params.email,
-    params.user_profile_photo_id,
-  ]);
 
-  if (result.affectedRows) {
-    message = "User successfully created";
-    createdData = await getOne(id);
+  const imageUrl = await uploadImage(file);
+
+  if (imageUrl) {
+    const id = v1();
+    const q = `INSERT INTO user(id, nama, password, email, user_profile_photo) VALUES(?, ?, ?, ?, ?)`;
+    const result = await query(q, [
+      id,
+      params.nama,
+      params.password,
+      params.email,
+      imageUrl,
+    ]);
+
+    if (result.affectedRows) {
+      message = "User successfully created";
+      createdData = await getOne(id);
+    }
+  } else {
+    throw Error("Failed to upload file, try again!");
   }
 
   return { message: message, data: createdData };

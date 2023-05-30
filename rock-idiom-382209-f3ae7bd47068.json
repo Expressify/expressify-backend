@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "rock-idiom-382209",
+  "private_key_id": "f3ae7bd4706826eaa13ddc163d44c75c9660a615",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCZoy2CgmvQf5C7\nd9emnZIbazGV+qqlxucj9GWx1mfflo520JX8iLaprTQo5hmxXcYn446bsVXJru3l\nCDhZWXvUrfu7iYdLE2C1Wf66tZafWBU+RXZSWEGdwxWR9Pq1xG2ccAstuOOYXrST\nqeGmSVGiHrGTz7LFhzVBSnjrmQn22HCXyQ6zNzzlVDy6w/sq0Ou0JM58cP3gCjXQ\naw2/P0BWMRDM4dPOMDlXvWbOOPa3sC0G6vRd5rPbe/MZb8QCrGYUcdS4zd9HzrnC\n+A0F0wQKxbTDV7J9jLcYcRYmENOYPFFYSOIuV/sM6aRSJiQFl3GOPvi4uPKodvVR\nZT7SowxhAgMBAAECggEAHzQflZ6khBOskw6ri2j8WDpEt2fSSdokbs5/6wcXULd0\n1tfVZpVjuAF4Ewhs1nOrv8U9XQy+1jgDlB0/yJHejxsJAhVUF6DnZt3Q2R3xagqL\nQfr8pYvMQ9zv4BWH5+vtsTSmaJJhEzzE4yrBLDM+87TVLyajce/clpaoCX2rIumQ\n297w2UN4b9i6Wt/Ue62qMnCBKonoe8smeU8iyD4Dh0NydnTSYkXJNf/EKCZwALTC\nKGjBC6CjAFdJCBG4wE5hqlPSj4prl33Gaa6LDu9xIuP715MXUftWJ4A1fc91P244\nULVVdQftfdYrfykxasxKpuE4HvcNpnnqORFwaDNEYwKBgQDXTui43qvvJBbyovkg\nnmBgh443JgbpwO/6nuIehw3abTUJgcRu2SDJMLPlZaVtJsl0n+DICx2ez5RziCKW\nguLut+uPj/nPbBC3e6TBT3VqLhHEe4Das5ikp8kKbyuLpGjlM02As4v7fVVjP/rw\nAhiBWwuFmwhyIfDJ08JGMSOgcwKBgQC2rH9FpE1DmAA2G6KrUmuuG9oJ/m6PN9Bw\nXR1X+Vpvm5d0gm7R8FrGGVf9+1nEr3ApWD3fRNaNapAz1MGRvZ5J8s0gXpgrBFhz\ng2tmTWRq792/HEmbngNDcGi2O7ghcM1XEQjXNQMq4zhVZNGTgV8Uc2cqwhRi1sDH\nRyMQI/OO2wKBgDFMkiDya2/gVZjNFDoRyYOQxlF+VYrkcI50HtZamiNvaft5SR8Q\nfF9U1XwrIAu0G+CmUvO7B9c7NISXoUPRSGDcoAVJNCv4VIOOvhS9OudLESpqFQD+\nqm7ZNEE9Xz0kMhh4/MABXIYDFrAZED4wXKgRzruS2gY4G0g7QnqL+dpdAoGAbgCY\nL67OHDsnPW4M2hAq6dC5zzTZDQN2UIOyDO0KaZUPckitRVzwvMQ8OaSnnQpsh2ks\n8Qs6DDS0m5Gt8v51mGBO6AQurBDU1tK31QYbx02kgdYd+UkA/BZv5/U0X2bXMGwA\nn9+7hZMItFue3K2WPPF1mcj/j7l0o0wSMEEGBOsCgYEAmL3DClifOmfz0UWToGxW\nIVfpGA9W/XNNC8cNhHxDpkYvDjkCLROZheBro1xvydan7pCc8HG68z9VTj9F+/9T\nMQ9zcHkxdixpY25cbhFjG8ibJgDiEqTafoyzXGwvRwbYEN1HP1k74o6Ny2g+zGJk\nwhp0SzvO+a1lMO4DQiHybtQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "local-dev@rock-idiom-382209.iam.gserviceaccount.com",
+  "client_id": "106169822711630989537",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/local-dev%40rock-idiom-382209.iam.gserviceaccount.com"
+}
