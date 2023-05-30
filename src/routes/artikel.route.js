@@ -4,7 +4,7 @@ import {
   getAllArticleController,
   getOneArticleController,
   updateOneArticleController,
-} from "../controllers/article.controller.js";
+} from "../controllers/artikel.controller.js";
 
 const router = express.Router();
 

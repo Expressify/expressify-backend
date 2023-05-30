@@ -4,13 +4,13 @@ import {
   createOne,
   updateOne,
   deleteOne,
-} from "../services/article.service.js";
+} from "../services/artikel.service.js";
 
 const getAllArticleController = async (req, res) => {
   try {
     return res.status(200).json({
       data: await getAll(),
-      message: "success fetching article",
+      message: "success fetching artikel",
       status: true,
     });
   } catch (err) {
@@ -25,7 +25,7 @@ const getOneArticleController = async (req, res) => {
   try {
     return res.status(200).json({
       data: await getOne(req.params.id),
-      message: "Success fetching article data",
+      message: "Success fetching artikel data",
       status: true,
     });
   } catch (err) {
