@@ -27,7 +27,7 @@ const createOne = async (params) => {
   let status = false;
 
   const id = v1();
-  const q = `INSERT INTO user_jurnal(id, jurnal, user_id) VALUES(?, ?)`;
+  const q = `INSERT INTO user_jurnal(id, jurnal, user_id) VALUES(?, ?, ?)`;
   const result = await query(q, [id, params.jurnal, params.user_id]);
 
   if (result.affectedRows) {
