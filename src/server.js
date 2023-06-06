@@ -1,4 +1,5 @@
 import express from "express";
+import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import genreRoutes from "./routes/genre.route.js";
 import filmRoutes from "./routes/film.route.js";
@@ -11,6 +12,7 @@ import genreBukuRoutes from "./routes/genre_buku.route.js";
 import userJurnalRoutes from "./routes/user_jurnal.route.js";
 import articleRoutes from "./routes/artikel.route.js";
 import userPredictionTransactionRoutes from "./routes/user_prediction_transaction.route.js";
+import authJwt from "./middleware/authJwt.js";
 import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
 import multer from "multer";
@@ -36,6 +38,10 @@ app.use(
 app.get("/", (req, res) => {
   res.send("Successful Response");
 });
+
+app.use("/api/v1/auth", authRoutes);
+app.use(authJwt.verifyToken); // token authentication
+
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/genres", genreRoutes);
 app.use("/api/v1/films", filmRoutes);
