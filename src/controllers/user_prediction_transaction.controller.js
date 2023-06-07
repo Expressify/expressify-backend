@@ -39,7 +39,7 @@ const getOneUserPredictionTransactionController = async (req, res) => {
 const createOneUserPredictionTransactionController = async (req, res) => {
   try {
     console.log(req.body);
-    const createResult = await createOne(req.body);
+    const createResult = await createOne(req.body, req.file);
 
     if (createResult.data) {
       return res.status(200).json(createResult);
