@@ -35,11 +35,12 @@ const loginController = async (req, res) => {
           email: data.email,
           user_profile_photo: data.user_profile_photo,
         },
-        jwtAccessSecret,
-        {
-          expiresIn: jwtAccessExpiration,
-        }
+        jwtAccessSecret
+        // {
+        //   expiresIn: jwtAccessExpiration,
+        // }
       );
+
       delete data.password;
 
       return res.json({
