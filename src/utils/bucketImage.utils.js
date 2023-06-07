@@ -6,7 +6,12 @@ dotenv.config();
 
 const bucket = storage.bucket(process.env.BUCKET_NAME);
 
-export const uploadImage = (file) =>
+export const deleteImage = async (file) => {
+  await bucket.deleteFiles(file);
+  console.warn("successfully deleted", file);
+};
+
+export const bucketImage = (file) =>
   new Promise((resolve, reject) => {
     const { originalname, buffer } = file;
     var ext = path.extname(originalname);
