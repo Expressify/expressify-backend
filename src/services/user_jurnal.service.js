@@ -1,6 +1,8 @@
 import { v1 } from "uuid";
 import { query } from "../utils/db.utils.js";
 import { getOne as getUser } from "./user.service.js";
+import axios from "axios";
+import * as dotenv from "dotenv";
 
 const getAll = async () => {
   const data = await query(`SELECT * FROM user_jurnal`);
@@ -25,10 +27,33 @@ const createOne = async (params) => {
   let message = "Error in creating user_jurnal data";
   let createdData = null;
   let status = false;
+  let prediction = null;
+
+  const mlServicePrediction = await axios.post(
+    `${process.env.ML_SERVICE_ENDPOINT}/jurnal_prediction`,
+    { text: params.jurnal }
+  );
+
+  prediction = mlServicePrediction.data;
+
+  if (prediction.status !== false) {
+    console.info(
+      `Successfully predict the probability of mental issue for this user`,
+      params.user_id
+    );
+  } else {
+    message = `can't detect your jurnal, try again with another jurnal`;
+    return { message: message, data: createdData, status };
+  }
 
   const id = v1();
-  const q = `INSERT INTO user_jurnal(id, jurnal, user_id) VALUES(?, ?, ?)`;
-  const result = await query(q, [id, params.jurnal, params.user_id]);
+  const q = `INSERT INTO user_jurnal(id, jurnal, prediction, user_id) VALUES(?, ?, ?, ?)`;
+  const result = await query(q, [
+    id,
+    params.jurnal,
+    prediction.prediction,
+    params.user_id,
+  ]);
 
   if (result.affectedRows) {
     message = "user_jurnal successfully created";

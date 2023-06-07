@@ -1,6 +1,6 @@
 import { query } from "../utils/db.utils.js";
 import { v1 } from "uuid";
-import { uploadImage } from "../utils/uploadImage.utils.js";
+import { bucketImage } from "../utils/bucketImage.utils.js";
 
 const getAll = async () => {
   const data = await query(`SELECT * FROM user`);
@@ -16,7 +16,7 @@ const createOne = async (params, file) => {
   let message = "Error in creating user data";
   let createdData = null;
 
-  const imageUrl = await uploadImage(file);
+  const imageUrl = await bucketImage(file);
 
   if (imageUrl) {
     const id = v1();
