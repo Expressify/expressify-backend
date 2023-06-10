@@ -19,7 +19,7 @@ const getOne = async (id) => {
 const getByUserId = async (id) => {
   if (await getUser(id)) {
     const data = await query(
-      `SELECT user_genre.id, nama_genre, jenis_genre, nama as nama_user, user_profile_photo FROM user_genre INNER JOIN genre ON genre.id = genre_id INNER JOIN user ON user.id = user_id WHERE user_id = ?`,
+      `SELECT user_genre.id, nama_genre, jenis_genre, nama as nama_user FROM user_genre INNER JOIN genre ON genre.id = genre_id INNER JOIN user ON user.id = user_id WHERE user_id = ?`,
       [id]
     );
     return data;

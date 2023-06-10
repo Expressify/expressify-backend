@@ -12,29 +12,22 @@ const getOne = async (id) => {
   return data[0];
 };
 
-const createOne = async (params, file) => {
+const createOne = async (params) => {
   let message = "Error in creating user data";
   let createdData = null;
 
-  const imageUrl = await bucketImage(file);
+  const id = v1();
+  const q = `INSERT INTO user(id, nama, password, email) VALUES(?, ?, ?, ?)`;
+  const result = await query(q, [
+    id,
+    params.nama,
+    params.password,
+    params.email,
+  ]);
 
-  if (imageUrl) {
-    const id = v1();
-    const q = `INSERT INTO user(id, nama, password, email, user_profile_photo) VALUES(?, ?, ?, ?, ?)`;
-    const result = await query(q, [
-      id,
-      params.nama,
-      params.password,
-      params.email,
-      imageUrl,
-    ]);
-
-    if (result.affectedRows) {
-      message = "User successfully created";
-      createdData = await getOne(id);
-    }
-  } else {
-    throw Error("Failed to upload file, try again!");
+  if (result.affectedRows) {
+    message = "User successfully created";
+    createdData = await getOne(id);
   }
 
   return { message: message, data: createdData };

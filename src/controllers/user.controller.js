@@ -86,7 +86,7 @@ const getPredictionByUserIdController = async (req, res) => {
 
 const createOneUserController = async (req, res) => {
   try {
-    const createResult = await createOne(req.body, req.file);
+    const createResult = await createOne(req.body);
 
     if (createResult.data) {
       return res.status(200).json({
