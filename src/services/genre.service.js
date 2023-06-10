@@ -4,7 +4,11 @@ import { getOne as getUser } from "./user.service.js";
 
 const getAll = async () => {
   const data = await query(`SELECT * FROM genre`);
-  return data;
+  const music_genre = data.filter((data) => data.jenis_genre === 1);
+  const book_genre = data.filter((data) => data.jenis_genre === 2);
+  const film_genre = data.filter((data) => data.jenis_genre === 3);
+
+  return { music: music_genre, book: book_genre, film: film_genre };
 };
 
 const getOne = async (id) => {
