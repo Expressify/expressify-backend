@@ -4,6 +4,35 @@ import {
   jwtAccessSecret,
   jwtAccessExpiration,
 } from "../configs/auth.config.js";
+import { createOne } from "../services/user.service.js";
+
+const registerController = async (req, res) => {
+  try {
+    const data = await createOne(req.body, req.file);
+    if (data) {
+      data.accessToken = jwt.sign(
+        {
+          id: data.id,
+          nama: data.nama,
+          email: data.email,
+          user_profile_photo: data.user_profile_photo,
+        },
+        jwtAccessSecret
+      );
+
+      delete data.data.password;
+
+      return res.status(200).json({ ...data });
+    } else {
+      throw Error("data yang dimasukkan tidak valid");
+    }
+  } catch (err) {
+    return res.status(500).json({
+      message: `Gagal registrasi, ${err.message}`,
+      status: false,
+    });
+  }
+};
 
 const loginController = async (req, res) => {
   const { email, password } = req.body;
@@ -61,4 +90,4 @@ const loginController = async (req, res) => {
     });
   }
 };
-export { loginController };
+export { loginController, registerController };
