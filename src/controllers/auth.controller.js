@@ -4,29 +4,44 @@ import {
   jwtAccessSecret,
   jwtAccessExpiration,
 } from "../configs/auth.config.js";
-import { createOne } from "../services/user.service.js";
+import {
+  createOne as createUser,
+  deleteOne as deleteUser,
+} from "../services/user.service.js";
+import { createOne as createUserGenre } from "../services/user_genre.service.js";
 
 const registerController = async (req, res) => {
+  const data = await createUser(req.body, req.file);
   try {
-    const data = await createOne(req.body, req.file);
+    const userGenre = [];
     if (data) {
       data.accessToken = jwt.sign(
         {
-          id: data.id,
-          nama: data.nama,
-          email: data.email,
-          user_profile_photo: data.user_profile_photo,
+          id: data.data.id,
+          nama: data.data.nama,
+          email: data.data.email,
         },
         jwtAccessSecret
       );
 
       delete data.data.password;
 
+      for (let i = 0; i < req.body.genre.length; i++) {
+        const params = {
+          genre_id: req.body.genre[i],
+          user_id: data.data.id,
+        };
+        const genre = await createUserGenre(params);
+        userGenre.push(genre.data);
+      }
+      Object.assign(data, { genre: userGenre });
+
       return res.status(200).json({ ...data });
     } else {
       throw Error("data yang dimasukkan tidak valid");
     }
   } catch (err) {
+    await deleteUser(data.id);
     return res.status(500).json({
       message: `Gagal registrasi, ${err.message}`,
       status: false,
@@ -62,7 +77,6 @@ const loginController = async (req, res) => {
           id: data.id,
           nama: data.nama,
           email: data.email,
-          user_profile_photo: data.user_profile_photo,
         },
         jwtAccessSecret
         // {
