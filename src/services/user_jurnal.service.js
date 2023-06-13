@@ -5,7 +5,9 @@ import axios from "axios";
 import * as dotenv from "dotenv";
 
 const getAll = async () => {
-  const data = await query(`SELECT * FROM user_jurnal`);
+  const data = await query(
+    `SELECT * FROM user_jurnal ORDER BY created_at DESC`
+  );
   return data;
 };
 
@@ -16,9 +18,10 @@ const getOne = async (id) => {
 
 const getByUserId = async (id) => {
   if (await getUser(id)) {
-    const data = await query(`SELECT * FROM user_jurnal WHERE user_id = ?`, [
-      id,
-    ]);
+    const data = await query(
+      `SELECT * FROM user_jurnal WHERE user_id = ? ORDER BY created_at DESC`,
+      [id]
+    );
     return data;
   } else throw Error("User not found");
 };
@@ -54,7 +57,7 @@ const createOne = async (params) => {
     params.jurnal,
     prediction.prediction,
     params.user_id,
-    created_date,
+    created_date.toLocaleTimeString(),
   ]);
 
   if (result.affectedRows) {
