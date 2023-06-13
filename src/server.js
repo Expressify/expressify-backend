@@ -40,10 +40,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/genres", genreRoutes);
 app.use(authJwt.verifyToken); // token authentication
 
 app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/genres", genreRoutes);
 app.use("/api/v1/films", filmRoutes);
 app.use("/api/v1/genre_musics", genreMusikRoutes);
 app.use("/api/v1/books", bukuRoutes);

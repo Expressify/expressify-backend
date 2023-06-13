@@ -8,15 +8,16 @@ import {
   getMusikByGenreIdController,
   updateOneGenreController,
 } from "../controllers/genre.controller.js";
+import authJwt from "../middleware/authJwt.js";
 
 const router = express.Router();
 
 router.get("/", getAllGenreController);
 router.get("/:id", getOneGenreController);
-router.get("/:id/books", getBukuByGenreIdController);
-router.get("/:id/films", getFilmByGenreIdController);
-router.get("/:id/musics", getMusikByGenreIdController);
-router.post("/", createOneGenreController);
-router.patch("/:id", updateOneGenreController);
+router.get("/:id/books", authJwt.verifyToken, getBukuByGenreIdController);
+router.get("/:id/films", authJwt.verifyToken, getFilmByGenreIdController);
+router.get("/:id/musics", authJwt.verifyToken, getMusikByGenreIdController);
+router.post("/", authJwt.verifyToken, createOneGenreController);
+router.patch("/:id", authJwt.verifyToken, updateOneGenreController);
 
 export default router;
