@@ -28,6 +28,7 @@ const createOne = async (params) => {
   let createdData = null;
   let status = false;
   let prediction = null;
+  let created_date = new Date();
 
   const mlServicePrediction = await axios.post(
     `${process.env.ML_SERVICE_ENDPOINT}/jurnal_prediction`,
@@ -47,12 +48,13 @@ const createOne = async (params) => {
   }
 
   const id = v1();
-  const q = `INSERT INTO user_jurnal(id, jurnal, prediction, user_id) VALUES(?, ?, ?, ?)`;
+  const q = `INSERT INTO user_jurnal(id, jurnal, prediction, user_id) VALUES(?, ?, ?, ?, ?)`;
   const result = await query(q, [
     id,
     params.jurnal,
     prediction.prediction,
     params.user_id,
+    created_date.toISOString(),
   ]);
 
   if (result.affectedRows) {
