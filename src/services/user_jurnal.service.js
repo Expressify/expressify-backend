@@ -57,7 +57,7 @@ const createOne = async (params) => {
     params.jurnal,
     prediction.prediction,
     params.user_id,
-    created_date.toLocaleTimeString(),
+    created_date,
   ]);
 
   if (result.affectedRows) {
