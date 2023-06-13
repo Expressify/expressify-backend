@@ -48,13 +48,13 @@ const createOne = async (params) => {
   }
 
   const id = v1();
-  const q = `INSERT INTO user_jurnal(id, jurnal, prediction, user_id) VALUES(?, ?, ?, ?, ?)`;
+  const q = `INSERT INTO user_jurnal(id, jurnal, prediction, user_id, created_at) VALUES(?, ?, ?, ?, ?)`;
   const result = await query(q, [
     id,
     params.jurnal,
     prediction.prediction,
     params.user_id,
-    created_date.toISOString(),
+    created_date,
   ]);
 
   if (result.affectedRows) {
