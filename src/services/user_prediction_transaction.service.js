@@ -70,7 +70,7 @@ const createOne = async (params, file) => {
     params.user_id
   );
 
-  var arrayOfRecommendation = {};
+  var arrayOfRecommendation;
 
   for (let i = 0; i < genre.length; i++) {
     const getMusicRecommendation = await query(
@@ -105,60 +105,61 @@ const createOne = async (params, file) => {
     }
   }
 
-  console.log(arrayOfRecommendation);
-  var recommendation;
-  var dataRecommendation;
-  var flag;
+  if (arrayOfRecommendation) {
+    var recommendation;
+    var dataRecommendation;
+    var flag;
 
-  console.log("ini random seed", randomSeed);
-  if (randomSeed === 1) {
-    recommendation = arrayOfRecommendation.musik;
-    flag = "musik";
-    if (typeof recommendation === "undefined") {
+    console.log("ini random seed", randomSeed);
+    if (randomSeed === 1) {
+      recommendation = arrayOfRecommendation.musik;
+      flag = "musik";
+      if (typeof recommendation === "undefined") {
+        recommendation = arrayOfRecommendation.film;
+        flag = "film";
+        if (typeof recommendation === "undefined") {
+          recommendation = arrayOfRecommendation.buku;
+          flag = "buku";
+        }
+      }
+    } else if (randomSeed === 2) {
       recommendation = arrayOfRecommendation.film;
       flag = "film";
       if (typeof recommendation === "undefined") {
         recommendation = arrayOfRecommendation.buku;
         flag = "buku";
+        if (typeof recommendation === "undefined") {
+          console.log("here");
+          recommendation = arrayOfRecommendation.musik;
+          flag = "musik";
+        }
       }
-    }
-  } else if (randomSeed === 2) {
-    recommendation = arrayOfRecommendation.film;
-    flag = "film";
-    if (typeof recommendation === "undefined") {
+    } else {
       recommendation = arrayOfRecommendation.buku;
       flag = "buku";
       if (typeof recommendation === "undefined") {
         console.log("here");
         recommendation = arrayOfRecommendation.musik;
         flag = "musik";
+        if (typeof recommendation === "undefined") {
+          recommendation = arrayOfRecommendation.film;
+          flag = "film";
+        }
       }
     }
-  } else {
-    recommendation = arrayOfRecommendation.buku;
-    flag = "buku";
-    if (typeof recommendation === "undefined") {
-      console.log("here");
-      recommendation = arrayOfRecommendation.musik;
-      flag = "musik";
-      if (typeof recommendation === "undefined") {
-        recommendation = arrayOfRecommendation.film;
-        flag = "film";
-      }
-    }
-  }
 
-  console.log("ini recommendation", recommendation);
-  const newRecommendation =
-    recommendation[Math.floor(Math.random() * recommendation.length)];
-  dataRecommendation = await query(
-    `select * from ${flag} where id = ?`,
-    newRecommendation.musik_id === undefined
-      ? newRecommendation.buku_id === undefined
-        ? newRecommendation.film_id
-        : newRecommendation.buku_id
-      : newRecommendation.musik_id
-  );
+    console.log("ini recommendation", recommendation);
+    const newRecommendation =
+      recommendation[Math.floor(Math.random() * recommendation.length)];
+    dataRecommendation = await query(
+      `select * from ${flag} where id = ?`,
+      newRecommendation.musik_id === undefined
+        ? newRecommendation.buku_id === undefined
+          ? newRecommendation.film_id
+          : newRecommendation.buku_id
+        : newRecommendation.musik_id
+    );
+  }
 
   const id = v1();
   const q = `INSERT INTO user_prediction_transaction(id, url_photo, prediction, user_id, recommendation) VALUES(?, ?, ?, ?, ?)`;
@@ -167,7 +168,9 @@ const createOne = async (params, file) => {
     imageUrl,
     prediction.prediction,
     params.user_id,
-    dataRecommendation[0].id,
+    typeof dataRecommendation === "undefined"
+      ? "There is no recommendation for you"
+      : dataRecommendation[0].id,
   ]);
 
   if (result.affectedRows) {
@@ -176,20 +179,25 @@ const createOne = async (params, file) => {
     status = true;
   }
 
+  var recommendationData =
+    typeof dataRecommendation === "undefined"
+      ? "No Recommendation for you"
+      : {
+          tipe: flag,
+          judul:
+            dataRecommendation[0].judul_musik === undefined
+              ? dataRecommendation[0].judul_film === undefined
+                ? dataRecommendation[0].judul_buku
+                : dataRecommendation[0].judul_film
+              : dataRecommendation[0].judul_musik,
+          url: dataRecommendation[0].url_spotify ?? "No URL Provided",
+        };
+
   return {
     message: message,
     data: {
       createdData,
-      recommendationData: {
-        tipe: flag,
-        judul:
-          dataRecommendation[0].judul_musik === undefined
-            ? dataRecommendation[0].judul_film === undefined
-              ? dataRecommendation[0].judul_buku
-              : dataRecommendation[0].judul_film
-            : dataRecommendation[0].judul_musik,
-        url: dataRecommendation[0].url_spotify ?? "No URL Provided",
-      },
+      recommendationData,
     },
     status,
   };
