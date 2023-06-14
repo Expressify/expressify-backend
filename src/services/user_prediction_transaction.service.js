@@ -168,7 +168,19 @@ const createOne = async (params, file) => {
 
   return {
     message: message,
-    data: { createdData, recommendationData: dataRecommendation[0] },
+    data: {
+      createdData,
+      recommendationData: {
+        tipe: flag,
+        judul:
+          dataRecommendation[0].judul_musik === undefined
+            ? dataRecommendation[0].judul_film === undefined
+              ? dataRecommendation[0].judul_buku
+              : dataRecommendation[0].judul_film
+            : dataRecommendation[0].judul_musik,
+        url: dataRecommendation[0].url_spotify ?? "No URL Provided",
+      },
+    },
     status,
   };
 };
