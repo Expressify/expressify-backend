@@ -1,6 +1,7 @@
 import { v1 } from "uuid";
 import { query } from "../utils/db.utils.js";
 import { getOne as getUser } from "./user.service.js";
+import { getOne as getUserGenre } from "./user_genre.service.js";
 import * as dotenv from "dotenv";
 import axios from "axios";
 import { bucketImage, deleteImage } from "../utils/bucketImage.utils.js";
@@ -36,6 +37,7 @@ const createOne = async (params, file) => {
   let createdData = null;
   let prediction = null;
   let status = false;
+  let randomSeed = Math.floor(Math.random() * 3);
 
   const imageUrl = await bucketImage(file);
   const formData = new FormData();
@@ -61,13 +63,101 @@ const createOne = async (params, file) => {
     }
   }
 
+  const genre = await query(
+    `SELECT * from user_genre WHERE user_id = ?`,
+    params.user_id
+  );
+
+  var arrayOfRecommendation = {};
+
+  for (let i = 0; i < genre.length; i++) {
+    const getMusicRecommendation = await query(
+      `SELECT * from genre_musik WHERE mood = ? and genre_id = ?`,
+      [prediction.prediction, genre[i].genre_id]
+    );
+    const getBookRecommendation = await query(
+      `SELECT * from genre_buku WHERE mood = ? and genre_id = ?`,
+      [prediction.prediction, genre[i].genre_id]
+    );
+    const getFilmRecommendation = await query(
+      `SELECT * from genre_film WHERE mood = ? and genre_id = ?`,
+      [prediction.prediction, genre[i].genre_id]
+    );
+    if (getMusicRecommendation.length !== 0) {
+      Object.assign(arrayOfRecommendation, {
+        musik: getMusicRecommendation,
+      });
+    }
+    if (getBookRecommendation.length !== 0) {
+      Object.assign(arrayOfRecommendation, {
+        buku: getBookRecommendation,
+      });
+    }
+    if (getFilmRecommendation.length !== 0) {
+      Object.assign(arrayOfRecommendation, {
+        film: getFilmRecommendation,
+      });
+    }
+  }
+
+  var recommendation;
+  var dataRecommendation;
+  var flag;
+
+  if (randomSeed === 1) {
+    recommendation = arrayOfRecommendation.musik;
+    flag = "musik";
+    if (recommendation.length === 0) {
+      recommendation = arrayOfRecommendation.film;
+      flag = "film";
+      if (recommendation.length === 0) {
+        recommendation = arrayOfRecommendation.buku;
+        flag = "buku";
+      }
+    }
+  } else if (randomSeed === 2) {
+    recommendation = arrayOfRecommendation.film;
+    flag = "film";
+    if (recommendation.length === 0) {
+      recommendation = arrayOfRecommendation.buku;
+      flag = "buku";
+      if (recommendation.length === 0) {
+        recommendation = arrayOfRecommendation.musik;
+        flag = "musik";
+      }
+    }
+  } else {
+    recommendation = arrayOfRecommendation.buku;
+    flag = "buku";
+    if (recommendation.length === 0) {
+      recommendation = arrayOfRecommendation.musik;
+      flag = "musik";
+      if (recommendation.length === 0) {
+        recommendation = arrayOfRecommendation.film;
+        flag = "film";
+      }
+    }
+  }
+
+  const newRecommendation =
+    recommendation[Math.floor(Math.random() * recommendation.length)];
+  dataRecommendation = await query(
+    `select * from ${flag} where id = ?`,
+    newRecommendation.musik_id === undefined
+      ? newRecommendation.buku_id === undefined
+        ? newRecommendation.film_id
+        : newRecommendation.buku_id
+      : newRecommendation.musik_id
+  );
+
   const id = v1();
-  const q = `INSERT INTO user_prediction_transaction(id, url_photo, prediction, user_id) VALUES(?, ?, ?, ?)`;
+  const q = `INSERT INTO user_prediction_transaction(id, url_photo, prediction, user_id, recommendation) VALUES(?, ?, ?, ?, ?)`;
   const result = await query(q, [
     id,
     imageUrl,
     prediction.prediction,
     params.user_id,
+    dataRecommendation[0].id,
   ]);
 
   if (result.affectedRows) {
@@ -76,7 +166,11 @@ const createOne = async (params, file) => {
     status = true;
   }
 
-  return { message: message, data: createdData, status };
+  return {
+    message: message,
+    data: { createdData, recommendationData: dataRecommendation[0] },
+    status,
+  };
 };
 
 const updateOne = async (req) => {
