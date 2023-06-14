@@ -38,6 +38,7 @@ const createOne = async (params, file) => {
   let prediction = null;
   let status = false;
   let randomSeed = Math.floor(Math.random() * 3);
+  console.log(randomSeed);
 
   const imageUrl = await bucketImage(file);
   const formData = new FormData();
@@ -56,6 +57,7 @@ const createOne = async (params, file) => {
 
     if (prediction.status !== false) {
       console.info(`Successfully predict the emotion for`, { imageUrl });
+      console.info(prediction.prediction);
     } else {
       message = `can't detect your face, try again with another photo`;
       deleteImage(imageUrl);
@@ -75,42 +77,47 @@ const createOne = async (params, file) => {
       `SELECT * from genre_musik WHERE mood = ? and genre_id = ?`,
       [prediction.prediction, genre[i].genre_id]
     );
-    const getBookRecommendation = await query(
-      `SELECT * from genre_buku WHERE mood = ? and genre_id = ?`,
-      [prediction.prediction, genre[i].genre_id]
-    );
-    const getFilmRecommendation = await query(
-      `SELECT * from genre_film WHERE mood = ? and genre_id = ?`,
-      [prediction.prediction, genre[i].genre_id]
-    );
+    console.log(getMusicRecommendation);
     if (getMusicRecommendation.length !== 0) {
       Object.assign(arrayOfRecommendation, {
         musik: getMusicRecommendation,
       });
-    }
-    if (getBookRecommendation.length !== 0) {
-      Object.assign(arrayOfRecommendation, {
-        buku: getBookRecommendation,
-      });
-    }
-    if (getFilmRecommendation.length !== 0) {
-      Object.assign(arrayOfRecommendation, {
-        film: getFilmRecommendation,
-      });
+    } else {
+      const getBookRecommendation = await query(
+        `SELECT * from genre_buku WHERE mood = ? and genre_id = ?`,
+        [prediction.prediction, genre[i].genre_id]
+      );
+      if (getBookRecommendation.length !== 0) {
+        Object.assign(arrayOfRecommendation, {
+          buku: getBookRecommendation,
+        });
+      } else {
+        const getFilmRecommendation = await query(
+          `SELECT * from genre_film WHERE mood = ? and genre_id = ?`,
+          [prediction.prediction, genre[i].genre_id]
+        );
+        if (getFilmRecommendation.length !== 0) {
+          Object.assign(arrayOfRecommendation, {
+            film: getFilmRecommendation,
+          });
+        }
+      }
     }
   }
 
+  console.log(arrayOfRecommendation);
   var recommendation;
   var dataRecommendation;
   var flag;
 
+  console.log("ini random seed", randomSeed);
   if (randomSeed === 1) {
     recommendation = arrayOfRecommendation.musik;
     flag = "musik";
-    if (recommendation.length === 0) {
+    if (typeof recommendation === "undefined") {
       recommendation = arrayOfRecommendation.film;
       flag = "film";
-      if (recommendation.length === 0) {
+      if (typeof recommendation === "undefined") {
         recommendation = arrayOfRecommendation.buku;
         flag = "buku";
       }
@@ -118,10 +125,11 @@ const createOne = async (params, file) => {
   } else if (randomSeed === 2) {
     recommendation = arrayOfRecommendation.film;
     flag = "film";
-    if (recommendation.length === 0) {
+    if (typeof recommendation === "undefined") {
       recommendation = arrayOfRecommendation.buku;
       flag = "buku";
-      if (recommendation.length === 0) {
+      if (typeof recommendation === "undefined") {
+        console.log("here");
         recommendation = arrayOfRecommendation.musik;
         flag = "musik";
       }
@@ -129,16 +137,18 @@ const createOne = async (params, file) => {
   } else {
     recommendation = arrayOfRecommendation.buku;
     flag = "buku";
-    if (recommendation.length === 0) {
+    if (typeof recommendation === "undefined") {
+      console.log("here");
       recommendation = arrayOfRecommendation.musik;
       flag = "musik";
-      if (recommendation.length === 0) {
+      if (typeof recommendation === "undefined") {
         recommendation = arrayOfRecommendation.film;
         flag = "film";
       }
     }
   }
 
+  console.log("ini recommendation", recommendation);
   const newRecommendation =
     recommendation[Math.floor(Math.random() * recommendation.length)];
   dataRecommendation = await query(
