@@ -17,8 +17,13 @@ const createOne = async (params) => {
   let status = false;
 
   const id = v1();
-  const q = `INSERT INTO genre_film(id, genre_id, film_id) VALUES(?, ?, ?)`;
-  const result = await query(q, [id, params.genre_id, params.film_id]);
+  const q = `INSERT INTO genre_film(id, genre_id, film_id, mood) VALUES(?, ?, ?, ?)`;
+  const result = await query(q, [
+    id,
+    params.genre_id,
+    params.film_id,
+    params.mood,
+  ]);
 
   if (result.affectedRows) {
     message = "genre_film successfully created";
