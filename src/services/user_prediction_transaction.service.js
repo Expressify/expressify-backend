@@ -181,7 +181,7 @@ const createOne = async (params, file) => {
 
   var recommendationData =
     typeof dataRecommendation === "undefined"
-      ? "No Recommendation for you"
+      ? {}
       : {
           tipe: flag,
           judul:
