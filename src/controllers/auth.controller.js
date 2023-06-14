@@ -15,7 +15,7 @@ const registerController = async (req, res) => {
   try {
     const userGenre = [];
     if (data) {
-      data.accessToken = jwt.sign(
+      data.data.accessToken = jwt.sign(
         {
           id: data.data.id,
           nama: data.data.nama,
