@@ -69,14 +69,12 @@ const createOne = async (params, file) => {
     params.user_id
   );
 
-  var arrayOfRecommendation;
-
+  var arrayOfRecommendation = {};
   for (let i = 0; i < genre.length; i++) {
     const getMusicRecommendation = await query(
       `SELECT * from genre_musik WHERE mood = ? and genre_id = ?`,
       [prediction.prediction, genre[i].genre_id]
     );
-
     if (getMusicRecommendation.length !== 0) {
       Object.assign(arrayOfRecommendation, {
         musik: getMusicRecommendation,
@@ -104,7 +102,11 @@ const createOne = async (params, file) => {
     }
   }
 
-  if (arrayOfRecommendation) {
+  if (
+    typeof arrayOfRecommendation.musik !== "undefined" ||
+    typeof arrayOfRecommendation.film !== "undefined" ||
+    typeof arrayOfRecommendation.buku !== "undefined"
+  ) {
     var recommendation;
     var dataRecommendation;
     var flag;
@@ -173,6 +175,8 @@ const createOne = async (params, file) => {
     createdData = await getOne(id);
     status = true;
   }
+
+  console.log(recommendationData);
 
   var recommendationData =
     typeof dataRecommendation === "undefined"
