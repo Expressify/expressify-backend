@@ -38,7 +38,6 @@ const createOne = async (params, file) => {
   let prediction = null;
   let status = false;
   let randomSeed = Math.floor(Math.random() * 3);
-  console.log(randomSeed);
 
   const imageUrl = await bucketImage(file);
   const formData = new FormData();
@@ -77,7 +76,7 @@ const createOne = async (params, file) => {
       `SELECT * from genre_musik WHERE mood = ? and genre_id = ?`,
       [prediction.prediction, genre[i].genre_id]
     );
-    console.log(getMusicRecommendation);
+
     if (getMusicRecommendation.length !== 0) {
       Object.assign(arrayOfRecommendation, {
         musik: getMusicRecommendation,
@@ -110,7 +109,6 @@ const createOne = async (params, file) => {
     var dataRecommendation;
     var flag;
 
-    console.log("ini random seed", randomSeed);
     if (randomSeed === 1) {
       recommendation = arrayOfRecommendation.musik;
       flag = "musik";
@@ -129,7 +127,6 @@ const createOne = async (params, file) => {
         recommendation = arrayOfRecommendation.buku;
         flag = "buku";
         if (typeof recommendation === "undefined") {
-          console.log("here");
           recommendation = arrayOfRecommendation.musik;
           flag = "musik";
         }
@@ -138,7 +135,6 @@ const createOne = async (params, file) => {
       recommendation = arrayOfRecommendation.buku;
       flag = "buku";
       if (typeof recommendation === "undefined") {
-        console.log("here");
         recommendation = arrayOfRecommendation.musik;
         flag = "musik";
         if (typeof recommendation === "undefined") {
@@ -148,7 +144,6 @@ const createOne = async (params, file) => {
       }
     }
 
-    console.log("ini recommendation", recommendation);
     const newRecommendation =
       recommendation[Math.floor(Math.random() * recommendation.length)];
     dataRecommendation = await query(
