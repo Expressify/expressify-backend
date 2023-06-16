@@ -1,6 +1,6 @@
 # Expressify Backend Documentation
 
-A simple Node.js project using Express.js.
+Capstone project in Bangkit Academy using Express.js.
 
 ## Prerequisites
 
@@ -11,15 +11,14 @@ A simple Node.js project using Express.js.
 
 1.  Clone the repository:
 
-    ```shell
-    git clone https://github.com/Expressify/expressify-backend.git
-    ```
+    ###
+
+        git clone https://github.com/Expressify/expressify-backend.git
 
 2.  Install dependencies:
-    ```
-    cd expressify-backend
-    npm install
-    ```
+    ##
+        cd expressify-backend
+        npm install
 3.  Start the server:
     - For development mode (with hot-reloading):
     ##
@@ -28,32 +27,96 @@ A simple Node.js project using Express.js.
     - For production mode:
     ##
          npm start
-    ##
 
 ## Usage
 
 Make API requests to http://localhost:8080 to interact with the backend.
 
-## Usage
+# REST API Documentation
 
-Make API requests to http://localhost:8080 to interact with the backend.
+This documentation provides an overview and usage instructions for the REST API.
+
+## Authentication
+
+### Registration
+
+**Endpoint**: `/api/v1/auth/register`
+
+**Method**: `POST`
+
+#### Request
+
+```
+{
+    "nama": "lorem ipsum",
+    "email": "loremipsum@gmail.com",
+    "password": "123456",
+    "genre": ["id-genre1", "id-genre2"]
+}
+```
+
+### Login
+
+**Endpoint**: `/api/v1/auth/login`
+
+**Method**: `POST`
+
+#### Request
+
+```
+{
+  "email": "example_user@gmail.com",
+  "password": "example_password"
+}
+```
+
+## API Call with Authentication
+
+### Endpoint Music
+
+**Endpoint**: `/api/v1/musik`
+
+**Method**: `GET`
+
+#### Request
+
+```
+Authorization: Bearer <access_token>
+```
+
+**Endpoint**: `/api/v1/musik`
+
+**Method**: `POST`
+
+#### Request
+
+```
+Authorization: Bearer <access_token>
+
+{
+    "judul_musik": "Spongebob Squarepants",
+    "url_spotify": "abcdsabfhdsafsafdsa"
+}
+
+```
 
 ## Directory Structure
 
 ```
 expressify-backend/
-  |- src/
-  |  |- configs/
-  |  |- controllers/
-  |  |- middleware/
-  |  |- routes/
-  |  |- services/
-  |  |- utils/
-  |  |- server.js
-  |- node_modules/
-  |- package.json
-  |- .env
-  |- README.md
+|- src/
+| |- configs/
+| |- controllers/
+| |- middleware/
+| |- routes/
+| |- services/
+| |- utils/
+| |- server.js
+|- node_modules/
+|- package.json
+|- .env
+|- README.md
+
 ```
 
 ## Acknowledgments
