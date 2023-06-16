@@ -97,8 +97,11 @@ Authorization: Bearer <access_token>
     "judul_musik": "Spongebob Squarepants",
     "url_spotify": "abcdsabfhdsafsafdsa"
 }
-
 ```
+
+For more api documentation, see the following postman link
+
+https://warped-moon-321039.postman.co/workspace/New-Team-Workspace~c494c844-fe7a-4f62-b0c7-2bd7cf9ef7aa/collection/23691179-12fdca62-0cb5-4c01-89ce-715851247cac?action=share&creator=28030275
 
 ## Directory Structure
 
